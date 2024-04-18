@@ -2,7 +2,7 @@ name: Artifact
 on:
      push
 jobs:
-        LintTest:
+        LintTestJob:
             runs-on: 'ubuntu-latest'
             steps:
               - name: Get the code
@@ -20,7 +20,7 @@ jobs:
               - name: Perform test
                 run: npm run test
         BuildJob:
-            needs: LintTest 
+            needs: LintTestJob 
             runs-on: 'ubuntu-latest'
             steps:
               - name: Get the code
@@ -40,3 +40,13 @@ jobs:
                 with:
                       name: dist-files
                       path: dist/
+        DeployJob:
+               needs: BuildJob 
+               runs-on: 'ubuntu-latest'
+               steps:
+                    - name: Download Artifact
+                      uses: actions/download-artifact@v4
+                      with:
+                            name: dist-files
+                    - name: Display the contents
+                      run: ls -al 
