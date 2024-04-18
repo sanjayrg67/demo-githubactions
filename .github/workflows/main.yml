@@ -20,6 +20,7 @@ jobs:
               - name: Perform test
                 run: npm run test
         BuildJob:
+            needs: LintTest 
             runs-on: 'ubuntu-latest'
             steps:
               - name: Get the code
@@ -37,5 +38,5 @@ jobs:
               - name: upload Artifacts
                 uses: actions/upload-artifact@v4
                 with:
-                      name: dist
-                      path: dist-files
+                      name: dist-files
+                      path: dist
